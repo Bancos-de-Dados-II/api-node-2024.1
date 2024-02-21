@@ -38,7 +38,7 @@ async function sincronizar(){
   console.log("Sincronizado");
 }
 
-sincronizar();
+// sincronizar();
 
 async function criarUsuario(usuario){
   await Usuario.create(usuario);
@@ -56,4 +56,20 @@ async function listarUsuarios(){
   console.log(JSON.stringify(usuarios)); 
 }
 
-listarUsuarios();
+// listarUsuarios();
+
+async function buscarUsuario(email){
+  const usuario = await Usuario.findByPk(email);
+  console.log(JSON.stringify(usuario));
+}
+
+// buscarUsuario("maria@gmail.com");
+
+async function atualizarUsuario(email, nome){
+  const usuario = await Usuario.findByPk(email);
+  usuario.nome = nome;
+  await usuario.save();
+  console.log("Usuario atualizado");
+}
+
+atualizarUsuario("joao@gmail.com", "João da Silva");
