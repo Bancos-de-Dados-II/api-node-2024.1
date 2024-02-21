@@ -72,4 +72,12 @@ async function atualizarUsuario(email, nome){
   console.log("Usuario atualizado");
 }
 
-atualizarUsuario("joao@gmail.com", "João da Silva");
+// atualizarUsuario("joao@gmail.com", "João da Silva");]
+
+async function deletarUsuario(email){
+  const usuario = await Usuario.findByPk(email);
+  await usuario.destroy();
+  console.log("Usuario deletado");
+}
+
+deletarUsuario("paulo@gmail.com");
