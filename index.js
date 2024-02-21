@@ -39,3 +39,21 @@ async function sincronizar(){
 }
 
 sincronizar();
+
+async function criarUsuario(usuario){
+  await Usuario.create(usuario);
+  console.log("Usuario criado");
+}
+
+// criarUsuario({
+//   nome: "João",
+//   email: "joao@gmail.com",
+//   nascimento: "2000-01-01"
+// });
+
+async function listarUsuarios(){
+  const usuarios = await Usuario.findAll();
+  console.log(JSON.stringify(usuarios)); 
+}
+
+listarUsuarios();
