@@ -3,14 +3,10 @@ const app = express()
 app.use(express.json());
 const port = 3000
 
-app.get('/hello/:nome', (req, res) => {
-  res.send(`Hello ${req.params.nome}!`)
-})
+const {listarUsuarios} = require('./controller/UsuarioController');
 
-app.post('/hello', (req, res) => {
-   res.status(201).json(req.body.nome)
-})
+app.get('/usuarios', listarUsuarios);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});
