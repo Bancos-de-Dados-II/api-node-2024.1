@@ -5,7 +5,18 @@ const listarUsuarios = async (req, res) => {
   res.json(usuarios);
 }
 
-module.exports = { listarUsuarios };
+const buscarUsuario = async (req,res) =>{
+  const usuario = await Usuario.findByPk(req.params.email);
+
+    if(usuario === null){
+        res.status(404).json({erro: "Usuário não encontrado"});
+        return;
+    }
+
+  res.json(usuario);
+}
+
+module.exports = { listarUsuarios, buscarUsuario };
 
 
 // async function criarUsuario(usuario){
@@ -18,13 +29,6 @@ module.exports = { listarUsuarios };
 // //   email: "joao@gmail.com",
 // //   nascimento: "2000-01-01"
 // // });
-
-// async function listarUsuarios(){
-//   const usuarios = await Usuario.findAll();
-//   console.log(JSON.stringify(usuarios)); 
-// }
-
-// listarUsuarios();
 
 // async function buscarUsuario(email){
 //   const usuario = await Usuario.findByPk(email);
