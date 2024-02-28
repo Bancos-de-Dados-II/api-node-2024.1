@@ -16,26 +16,18 @@ const buscarUsuario = async (req,res) =>{
   res.json(usuario);
 }
 
-module.exports = { listarUsuarios, buscarUsuario };
+const criarUsuario = async (req, res) => {
+  try{
+    const usuario = await Usuario.create(req.body);
+    res.status(201).json(usuario);
+    }catch (exeption){
+        res.status(400).json({erro: exeption.message});
+        return;
+    }
+}
 
+module.exports = { listarUsuarios, buscarUsuario, criarUsuario };
 
-// async function criarUsuario(usuario){
-//   await Usuario.create(usuario);
-//   console.log("Usuario criado");
-// }
-
-// // criarUsuario({
-// //   nome: "João",
-// //   email: "joao@gmail.com",
-// //   nascimento: "2000-01-01"
-// // });
-
-// async function buscarUsuario(email){
-//   const usuario = await Usuario.findByPk(email);
-//   console.log(JSON.stringify(usuario));
-// }
-
-// // buscarUsuario("maria@gmail.com");
 
 // async function atualizarUsuario(email, nome){
 //   const usuario = await Usuario.findByPk(email);
