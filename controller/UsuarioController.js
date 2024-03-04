@@ -38,23 +38,20 @@ const deletarUsuario = async (req,res) => {
   res.json(usuario);
 }
 
+const atualizarUsuario = async (req,res) => {
+  const usuario = await Usuario.findByPk(req.params.email);
+
+  if(usuario == null){
+    res.status(404).json({erro: "Usuário não encontrado"});
+    return;
+  }
+
+  usuario.nome = req.body.nome;
+  usuario.email = req.body.email;
+  usuario.nascimento = req.body.nascimento;
+  await usuario.save();
+  res.json(usuario);
+}
+
 module.exports = { listarUsuarios, buscarUsuario, criarUsuario, 
-  deletarUsuario };
-
-
-// async function atualizarUsuario(email, nome){
-//   const usuario = await Usuario.findByPk(email);
-//   usuario.nome = nome;
-//   await usuario.save();
-//   console.log("Usuario atualizado");
-// }
-
-// // atualizarUsuario("joao@gmail.com", "João da Silva");]
-
-// async function deletarUsuario(email){
-//   const usuario = await Usuario.findByPk(email);
-//   await usuario.destroy();
-//   console.log("Usuario deletado");
-// }
-
-// // deletarUsuario("paulo@gmail.com");
+  deletarUsuario, atualizarUsuario };
