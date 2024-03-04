@@ -26,7 +26,20 @@ const criarUsuario = async (req, res) => {
     }
 }
 
-module.exports = { listarUsuarios, buscarUsuario, criarUsuario };
+const deletarUsuario = async (req,res) => {
+  const usuario = await Usuario.findByPk(req.params.email);
+
+  if(usuario == null){
+    res.status(404).json({erro: "Usuário não encontrado"});
+    return;
+  }
+
+  await usuario.destroy();
+  res.json(usuario);
+}
+
+module.exports = { listarUsuarios, buscarUsuario, criarUsuario, 
+  deletarUsuario };
 
 
 // async function atualizarUsuario(email, nome){
