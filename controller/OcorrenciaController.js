@@ -2,8 +2,24 @@ const Ocorrencia = require('../model/Ocorrencia');
 const client = require('../database/redis');
 
 const listarOcorrencias = async (req, res) => {
-  const ocorrencias = await Ocorrencia.findAll();
-  res.json(ocorrencias);
+
+  const cache = await client().then(redis =>{
+    return redis.get('ocorrencias');
+  });
+
+  if(cache){
+    console.log('Cache hit');
+    res.json(JSON.parse(cache));
+  }else{
+    console.log('Cache miss');
+    const ocorrencias = await Ocorrencia.findAll();
+
+    await client().then(redis =>{
+      redis.set('ocorrencias', JSON.stringify(ocorrencias));
+    });
+
+    res.json(ocorrencias);
+  }
 }
 
 const criarOcorrencia = async (req, res) => {
