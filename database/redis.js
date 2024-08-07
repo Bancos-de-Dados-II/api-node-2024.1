@@ -1,6 +1,13 @@
 const redis = require('redis');
+require('dotenv').config();
 
-let client = redis.createClient();
+let client = redis.createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT
+    }
+});
 
 async function conectar(){
     await client.connect();

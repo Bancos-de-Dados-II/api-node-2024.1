@@ -12,7 +12,9 @@ const listarOcorrencias = async (req, res) => {
     console.log('Cache miss');
     const ocorrencias = await Ocorrencia.findAll();
 
-    await client.set('ocorrencias', JSON.stringify(ocorrencias));
+    await client.set('ocorrencias', JSON.stringify(ocorrencias),{
+      EX: 3600
+    });
 
     res.json(ocorrencias);
   }
