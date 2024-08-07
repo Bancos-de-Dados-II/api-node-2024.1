@@ -1,4 +1,5 @@
 const Ocorrencia = require('../model/Ocorrencia');
+const client = require('../database/redis');
 
 const listarOcorrencias = async (req, res) => {
   const ocorrencias = await Ocorrencia.findAll();
