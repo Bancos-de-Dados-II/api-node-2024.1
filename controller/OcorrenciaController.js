@@ -3,9 +3,7 @@ const client = require('../database/redis');
 
 const listarOcorrencias = async (req, res) => {
 
-  const cache = await client().then(redis =>{
-    return redis.get('ocorrencias');
-  });
+  const cache = await client.get('ocorrencias');
 
   if(cache){
     console.log('Cache hit');
@@ -14,9 +12,7 @@ const listarOcorrencias = async (req, res) => {
     console.log('Cache miss');
     const ocorrencias = await Ocorrencia.findAll();
 
-    await client().then(redis =>{
-      redis.set('ocorrencias', JSON.stringify(ocorrencias));
-    });
+    await client.set('ocorrencias', JSON.stringify(ocorrencias));
 
     res.json(ocorrencias);
   }
