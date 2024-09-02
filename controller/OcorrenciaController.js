@@ -21,13 +21,13 @@ const listarOcorrencias = async (req, res) => {
 }
 
 const criarOcorrencia = async (req, res) => {
-  try{
-    const ocorrencia = await Ocorrencia.create(req.body);
-    res.status(201).json(ocorrencia);
-    }catch (exeption){
-        res.status(400).json({erro: exeption.message});
-        return;
-    }
+  Ocorrencia.create(req.body)
+    .then(result =>{
+      res.status(201).send(result)
+    })
+    .catch(err =>{
+      res.status(400).send(err);
+    });
 }
 
 module.exports = { listarOcorrencias, criarOcorrencia};

@@ -5,7 +5,7 @@ app.use(express.json());
 require('dotenv').config();
 const port = process.env.API_PORT;
 
-const usuarioRouter = require('./routers/UsuarioRouter');
+// const usuarioRouter = require('./routers/UsuarioRouter');
 const ocorrenciaRouter = require('./routers/OcorrenciaRouter');
 
 let corsOptions = {
@@ -13,7 +13,7 @@ let corsOptions = {
 }
 
 app.use(cors());
-app.use('/usuarios', usuarioRouter);
+// app.use('/usuarios', usuarioRouter);
 app.use('/ocorrencias', cors(corsOptions),  ocorrenciaRouter);
 
 app.listen(port, () => {

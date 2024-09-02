@@ -1,30 +1,40 @@
-const sequelize = require('../database/sequelize');
-const {DataTypes} = require('sequelize');
+const mongoose = require('../database/mongoose');
+const {Schema} = mongoose;
+const { randomUUID } = require('crypto');
 
-const Ocorrencia = sequelize.define('Ocorrencia', {
-    // Model attributes are defined here
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4
+const ocorrenciaSchema = new Schema({
+  _id: {
+    type: 'UUID',
+    default: () => randomUUID()
+  },
+  titulo: String,
+  descricao: String,
+  tipo: {
+    type: String,
+    enum: ['Assalto', 'Sequestro', 'Homicídio', 'Outros']
+  },
+  data: {
+    type: Date,
+    default: new Date()
+  },
+  localizacao: {
+    type: {
+      type: String, 
+      enum: ['Point'],
+      required: true
     },
-    descricao: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    localizacao:{
-      type: DataTypes.GEOMETRY,
-      allowNull: false
+    coordinates: {
+      type: [Number],
+      required: true
     }
-  }, {
-    // Other model options go here
-  });
-  
-  async function sincronizar(){
-    await Ocorrencia.sync();
-    console.log("Sincronizado");
   }
-  
-sincronizar();
+});
 
-module.exports = Ocorrencia; 
+ocorrenciaSchema.index(
+  {titulo: 'text', descricao:'text'},
+  {default_language: 'pt', weights:{titulo:2, descricao:1}}
+);
+
+const Ocorrencia = mongoose.model('ocorrencias', ocorrenciaSchema);
+
+module.exports = Ocorrencia;
